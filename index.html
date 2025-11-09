@@ -135,11 +135,11 @@
 
   <!-- Product 5 -->
   <div class="product">
-    <img src="images/product5.jpg" alt="Floor Cleaner Honey Dew">
+    <img id="img5" src="images/product5.jpg" alt="Floor Cleaner Honey Dew">
     <h3>Floor Cleaner Honey Dew</h3>
     <p>Pleasant, fruity scent that revitalizes every room and leaves floors gleaming (1 Liter).</p>
     <label>Select Combo:</label>
-    <select id="combo5" onchange="updateTotal()">
+    <select id="combo5" onchange="updateImage('5'); updateTotal();">
       <option value="11.90">Single Pack - RM 11.90</option>
       <option value="17.90">Twin Pack – RM 17.90</option>
       <option value="49.90">10L Jerry Can - RM 49.90</option>
@@ -153,11 +153,11 @@
 
   <!-- Product 6 -->
   <div class="product">
-    <img src="images/product6.jpg" alt="Lemon Fresh Dishwash">
+    <img id="img6" src="images/product6.jpg" alt="Lemon Fresh Dishwash">
     <h3>Lemon Fresh Dishwash</h3>
     <p>A rich lemon formula that removes tough grease while leaving a natural citrus shine (900 ml).</p>
     <label>Select Combo:</label>
-    <select id="combo6" onchange="updateTotal()">
+    <select id="combo6" onchange="updateImage('6'); updateTotal();">
       <option value="7.90">Single Pack - RM 7.90</option>
       <option value="11.90">Twin Pack – RM 11.90</option>
       <option value="32.90">10L Jerry Can – RM 32.90</option>
@@ -184,11 +184,11 @@
 
   <!-- Product 1 -->
   <div class="product">
-    <img src="images/product1.jpg" alt="Floor Cleaner Lavender">
+    <img id="img1" src="images/product1.jpg" alt="Floor Cleaner Lavender">
     <h3>Floor Cleaner Lavender</h3>
     <p>Gentle lavender fragrance with powerful cleaning for every floor surface (1 Liter).</p>
     <label>Select Combo:</label>
-    <select id="combo1" onchange="updateTotal()">
+    <select id="combo1" onchange="updateImage('1'); updateTotal();">
       <option value="11.90">Single Pack - RM 11.90</option>
       <option value="17.90">Twin Pack – RM 17.90</option>
       <option value="49.90">10L Jerry Can - RM 49.90</option>
@@ -255,6 +255,23 @@ function changeQty(button, change) {
   updateTotal();
 }
 
+function updateImage(id) {
+  const combo = document.getElementById('combo' + id);
+  const img = document.getElementById('img' + id);
+  const selectedText = combo.options[combo.selectedIndex].text;
+
+  if (id === '1') {
+    if (selectedText.includes('Twin Pack')) img.src = 'images/product11.jpg';
+    else img.src = 'images/product1.jpg';
+  } else if (id === '5') {
+    if (selectedText.includes('Twin Pack')) img.src = 'images/product51.jpg';
+    else img.src = 'images/product5.jpg';
+  } else if (id === '6') {
+    if (selectedText.includes('Twin Pack')) img.src = 'images/product61.jpg';
+    else img.src = 'images/product6.jpg';
+  }
+}
+
 function updateTotal() {
   const combos = [
     { select: 'combo1', qty: document.querySelector('[data-id="1"]').value },
@@ -307,7 +324,7 @@ function sendOrder() {
 
       if (p.comboId) {
         const selected = document.getElementById(p.comboId).selectedOptions[0];
-        const parts = selected.text.split(/\s[-–]\s/); // handle both hyphen and en dash
+        const parts = selected.text.split(/\s[-–]\s/);
         comboText = parts[0];
         priceText = parts[1];
       } else {
